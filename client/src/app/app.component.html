@@ -18,4 +18,10 @@
   </li>
 </ul>
 
+<ul>
+  <li *ngFor="let user of users | async">
+    {{user | json}}
+  </li>
+</ul>
+
 <router-outlet></router-outlet>
