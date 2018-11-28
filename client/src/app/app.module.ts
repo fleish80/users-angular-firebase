@@ -17,8 +17,7 @@ import { UsersModule } from 'src/users/users.module';
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireDatabaseModule,
-    UsersModule
+    AngularFireDatabaseModule
   ],
   providers: [AngularFirestore],
   bootstrap: [AppComponent]
