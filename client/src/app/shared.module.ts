@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatGridListModule, MatCardModule, MatMenuModule, MatIconModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatRippleModule } from '@angular/material';
 import { LayoutModule } from '@angular/cdk/layout';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
@@ -24,6 +25,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
     MatFormFieldModule,
     MatInputModule,
     MatRippleModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [MatGridListModule,
     MatCardModule,
@@ -34,7 +37,9 @@ import { AngularFirestore } from '@angular/fire/firestore';
     CommonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatRippleModule],
+    MatRippleModule,
+    ReactiveFormsModule
+  ],
   providers: [AngularFirestore]
 })
 export class SharedModule { }

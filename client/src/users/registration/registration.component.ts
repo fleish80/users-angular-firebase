@@ -1,42 +1,37 @@
 import { Component, OnInit } from '@angular/core';
-import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
-import { map } from 'rxjs/operators';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.scss']
 })
-// export class RegistrationComponent implements OnInit {
+export class RegistrationComponent implements OnInit {
+  
+  form: FormGroup; 
+  firstNameCtrl: FormControl;
+  lastNameCtrl: FormControl;
 
-//   constructor() { }
 
-//   ngOnInit() {
-//   }
+  constructor(private fb: FormBuilder) {}
 
-// }
+  ngOnInit(): void {
+    this.initForm();
+  }
 
-export class RegistrationComponent {
-  /** Based on the screen size, switch from standard to one column per row */
-  cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
-    map(({ matches }) => {
-      if (matches) {
-        return [
-          { title: 'Card 1', cols: 1, rows: 1 },
-          { title: 'Card 2', cols: 1, rows: 1 },
-          { title: 'Card 3', cols: 1, rows: 1 },
-          { title: 'Card 4', cols: 1, rows: 1 }
-        ];
-      }
+  submit() {
+    if (this.form.valid) {
+      console.log('form submitted');
+    }
+  }
 
-      return [
-        { title: 'Card 1', cols: 2, rows: 1 },
-        { title: 'Card 2', cols: 1, rows: 1 },
-        { title: 'Card 3', cols: 1, rows: 2 },
-        { title: 'Card 4', cols: 1, rows: 1 }
-      ];
+  private initForm() {
+    this.firstNameCtrl = new FormControl(null, [Validators.required]);
+    this.lastNameCtrl = new FormControl(null, [Validators.required]);
+
+    this.form = this.fb.group({
+      firstName: this.firstNameCtrl,
+      lastName: this.firstNameCtrl
     })
-  );
-
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  }
 }

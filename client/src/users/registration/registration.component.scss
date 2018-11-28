@@ -1,4 +1,18 @@
+@import '../../variables';
+
 :host {
     display: flex;
     justify-content: center;
+}
+
+.inputs {
+    display: flex;
+    @media only screen and (max-width: $mobile-size) {
+        flex-direction: column;
+    }
+}
+
+.mat-card-content {
+    display: flex;
+    flex-direction: column;
 }
