@@ -1,6 +1,13 @@
-<div class="grid-container">
-  <h1 class="mat-h1">Dashboard</h1>
-  <mat-grid-list cols="2" rowHeight="350px">
+<mat-card>
+  <mat-card-title layout-align="center center">User Registration</mat-card-title>
+  <mat-card-content>
+    <mat-form-field>
+      <input matInput placeholder="First Name">
+    </mat-form-field>
+  </mat-card-content>
+</mat-card>
+<!-- <h1 class="mat-h1">Dashboard</h1> -->
+<!-- <mat-grid-list cols="2" rowHeight="350px">
     <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
       <mat-card class="dashboard-card">
         <mat-card-header>
@@ -20,5 +27,4 @@
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>
-  </mat-grid-list>
-</div>
+  </mat-grid-list> -->
