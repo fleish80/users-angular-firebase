@@ -1,11 +1,9 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { SharedModule } from '../shared/shared.module';
 import { RegistrationComponent } from './registration/registration.component';
 import { UsersListComponent } from './users-list/users-list.component';
 import { UsersRoutingModule } from './users-routing.module';
 import { UsersComponent } from './users.component';
-import {MatButtonModule} from '@angular/material';
-import { SharedModule } from 'src/app/shared.module';
 
 @NgModule({
   declarations: [UsersComponent, RegistrationComponent, UsersListComponent],
@@ -15,3 +13,4 @@ import { SharedModule } from 'src/app/shared.module';
   ]
 })
 export class UsersModule { }
+

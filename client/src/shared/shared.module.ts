@@ -8,10 +8,11 @@ import { MatGridListModule, MatCardModule, MatMenuModule, MatIconModule, MatButt
 import { LayoutModule } from '@angular/cdk/layout';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PhoneFormFieldComponent } from './phone-form-field/phone-form-field.component';
 // import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
-  declarations: [],
+  declarations: [PhoneFormFieldComponent],
   imports: [
     CommonModule,
     AngularFireModule.initializeApp(environment.firebase),
