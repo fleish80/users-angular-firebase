@@ -33,7 +33,8 @@ export class RegistrationComponent implements OnInit {
 
     this.form = this.fb.group({
       firstName: this.firstNameCtrl,
-      lastName: this.firstNameCtrl
+      lastName: this.firstNameCtrl,
+      phoneNumber: this.phoneNumberCtrl
     })
   }
 }

@@ -13,12 +13,12 @@ class PhoneFormField {
   styleUrls: ['./phone-form-field.component.scss'],
   providers: [{ provide: MatFormFieldControl, useExisting: PhoneFormFieldComponent }],
 })
-export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormField> {
+export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormField>, OnInit {
+ 
   value: PhoneFormField;
   stateChanges = new Subject<void>();
   id: string;
   placeholder: string;
-  ngControl = null;
   focused: boolean;
   empty: boolean;
   shouldLabelFloat: boolean;
@@ -32,21 +32,45 @@ export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormFie
   areaCtrl: FormControl;
   phoneCtrl: FormControl;
 
-  constructor(fb: FormBuilder, 
+  constructor(private fb: FormBuilder,
     @Optional() @Self() public ngControl: NgControl) {
+    
+    if (this.ngControl != null) {
+      this.ngControl.valueAccessor = this;
+    }
+  }
+
+  ngOnInit(): void {
+    this.initForm();
+  }
+
+  private initForm() {
     this.areaCtrl = new FormControl(null);
     this.phoneCtrl = new FormControl(null);
-    this.form = fb.group({
+    this.form = this.fb.group({
       area: this.areaCtrl,
       phone: this.phoneCtrl
     });
   }
 
   setDescribedByIds(ids: string[]): void {
-    throw new Error("Method not implemented.");
+    // throw new Error("Method not implemented.");
   }
   onContainerClick(event: MouseEvent): void {
-    throw new Error("Method not implemented.");
+    // throw new Error("Method not implemented.");
+  }
+
+  writeValue(obj: any): void {
+    // throw new Error("Method not implemented.");
+  }
+  registerOnChange(fn: any): void {
+    // throw new Error("Method not implemented.");
+  }
+  registerOnTouched(fn: any): void {
+    // throw new Error("Method not implemented.");
+  }
+  setDisabledState?(isDisabled: boolean): void {
+    // throw new Error("Method not implemented.");
   }
 
 
