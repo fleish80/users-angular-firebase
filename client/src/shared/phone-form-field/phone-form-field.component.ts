@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Optional, Self } from '@angular/core';
 import { MatFormFieldControl } from '@angular/material';
 import { Subject } from 'rxjs';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, NgControl } from '@angular/forms';
 
 class PhoneFormField {
   constructor(public area: string, public phone: string) { }
@@ -32,7 +32,8 @@ export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormFie
   areaCtrl: FormControl;
   phoneCtrl: FormControl;
 
-  constructor(fb: FormBuilder) {
+  constructor(fb: FormBuilder, 
+    @Optional() @Self() public ngControl: NgControl) {
     this.areaCtrl = new FormControl(null);
     this.phoneCtrl = new FormControl(null);
     this.form = fb.group({
