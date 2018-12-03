@@ -7,13 +7,14 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
   styleUrls: ['./registration.component.scss']
 })
 export class RegistrationComponent implements OnInit {
-  
-  form: FormGroup; 
+
+  form: FormGroup;
   firstNameCtrl: FormControl;
   lastNameCtrl: FormControl;
+  phoneNumberCtrl: FormControl;
 
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -28,6 +29,7 @@ export class RegistrationComponent implements OnInit {
   private initForm() {
     this.firstNameCtrl = new FormControl(null, [Validators.required]);
     this.lastNameCtrl = new FormControl(null, [Validators.required]);
+    this.phoneNumberCtrl = new FormControl(null);
 
     this.form = this.fb.group({
       firstName: this.firstNameCtrl,

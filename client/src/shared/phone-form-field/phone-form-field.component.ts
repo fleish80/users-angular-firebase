@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { MatFormFieldControl } from '@angular/material';
 import { Subject } from 'rxjs';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 class PhoneFormField {
-  constructor(public area: string, public phone: string) {}
+  constructor(public area: string, public phone: string) { }
 }
 
 @Component({
   selector: 'app-phone-form-field',
   templateUrl: './phone-form-field.component.html',
   styleUrls: ['./phone-form-field.component.scss'],
-  providers: [{provide: MatFormFieldControl, useExisting: PhoneFormField}],
+  providers: [{ provide: MatFormFieldControl, useExisting: PhoneFormFieldComponent }],
 })
 export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormField> {
   value: PhoneFormField;
@@ -27,7 +28,18 @@ export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormFie
   controlType?: string;
   autofilled?: boolean;
 
-  constructor() { }
+  form: FormGroup;
+  areaCtrl: FormControl;
+  phoneCtrl: FormControl;
+
+  constructor(fb: FormBuilder) {
+    this.areaCtrl = new FormControl(null);
+    this.phoneCtrl = new FormControl(null);
+    this.form = fb.group({
+      area: this.areaCtrl,
+      phone: this.phoneCtrl
+    });
+  }
 
   setDescribedByIds(ids: string[]): void {
     throw new Error("Method not implemented.");
@@ -36,7 +48,7 @@ export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormFie
     throw new Error("Method not implemented.");
   }
 
-  
+
 
 
 }
