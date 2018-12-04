@@ -1,4 +1,4 @@
-import { Component, OnInit, Optional, Self, Input } from '@angular/core';
+import { Component, OnInit, Optional, Self, Input, HostBinding } from '@angular/core';
 import { MatFormFieldControl } from '@angular/material';
 import { Subject } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, NgControl, ControlValueAccessor } from '@angular/forms';
@@ -13,57 +13,32 @@ class PhoneFormField {
   styleUrls: ['./phone-form-field.component.scss'],
   providers: [{ provide: MatFormFieldControl, useExisting: PhoneFormFieldComponent }],
 })
-export class PhoneFormFieldComponent implements ControlValueAccessor, MatFormFieldControl<PhoneFormField>, OnInit {
+export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormField> {
  
-  // value: PhoneFormField;
+  value: PhoneFormField;
   stateChanges = new Subject<void>();
-  id: string;
+  id: string = 'phone';
   placeholder: string;
-  focused: boolean;
-  empty: boolean;
+  focused: boolean = false;
+  empty: boolean = true;
   shouldLabelFloat: boolean;
   required: boolean;
-  disabled: boolean;
+  disabled: boolean = false;
   errorState: boolean;
   controlType?: string;
-  autofilled?: boolean;
+  autofilled?: boolean = false;
 
-  @Input()
-    get value(): PhoneFormField {
-        return this.form.value;
-    }
-    set value(val) {
-      if (val) {
-        this.form.setValue(val);
-      }
-    }
-  
-  // get value(): PhoneFormField | null {
-  //   const {value: {area, phone}} = this.form;
-  //     return new PhoneFormField(area, phone);
-  // }
-  // set value(tel: PhoneFormField | null) {
-  //   const {area, phone} = tel || new PhoneFormField('', '');
-  //   this.form.setValue({area, phone});
-  //   this.stateChanges.next();
-  // }
-  
+  @HostBinding('class.float') float: boolean = false;
   form: FormGroup;
   areaCtrl: FormControl;
   phoneCtrl: FormControl;
 
   constructor(private fb: FormBuilder,
-    @Optional() @Self() public ngControl: NgControl) {
-    
+    @Optional() @Self() public ngControl: NgControl) { 
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;
     }
-
     this.initForm();
-  }
-
-  ngOnInit(): void {
-    // this.initForm();
   }
 
   private initForm() {
@@ -85,27 +60,14 @@ export class PhoneFormFieldComponent implements ControlValueAccessor, MatFormFie
   }
 
   writeValue(value: PhoneFormField): void {
-    // if (value) {
-    //   this.form.setValue(value);
-    // }
     this.value = value;
-    console.log('writeValue', value);
   }
+
   registerOnChange(fn: any): void {
     this.form.valueChanges.subscribe(fn);
-    console.log('registerOnChange');
   }
+
   registerOnTouched(fn: any): void {
-    // throw new Error("Method not implemented.");
-    console.log('registerOnTouched');
+    this.form.valueChanges.subscribe(fn);
   }
-  setDisabledState?(isDisabled: boolean): void {
-    // throw new Error("Method not implemented.");
-    console.log('setDisabledState');
-    
-  }
-
-
-
-
 }
