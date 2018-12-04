@@ -1,7 +1,7 @@
-import { Component, OnInit, Optional, Self } from '@angular/core';
+import { Component, OnInit, Optional, Self, Input } from '@angular/core';
 import { MatFormFieldControl } from '@angular/material';
 import { Subject } from 'rxjs';
-import { FormBuilder, FormControl, FormGroup, NgControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, NgControl, ControlValueAccessor } from '@angular/forms';
 
 class PhoneFormField {
   constructor(public area: string, public phone: string) { }
@@ -13,9 +13,9 @@ class PhoneFormField {
   styleUrls: ['./phone-form-field.component.scss'],
   providers: [{ provide: MatFormFieldControl, useExisting: PhoneFormFieldComponent }],
 })
-export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormField>, OnInit {
+export class PhoneFormFieldComponent implements ControlValueAccessor, MatFormFieldControl<PhoneFormField>, OnInit {
  
-  // value: PhoneFormField = new PhoneFormField('053', '9123456');
+  // value: PhoneFormField;
   stateChanges = new Subject<void>();
   id: string;
   placeholder: string;
@@ -28,16 +28,25 @@ export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormFie
   controlType?: string;
   autofilled?: boolean;
 
+  @Input()
+    get value(): PhoneFormField {
+        return this.form.value;
+    }
+    set value(val) {
+      if (val) {
+        this.form.setValue(val);
+      }
+    }
   
-  get value(): PhoneFormField | null {
-    const {value: {area, phone}} = this.form;
-      return new PhoneFormField(area, phone);
-  }
-  set value(tel: PhoneFormField | null) {
-    const {area, phone} = tel || new PhoneFormField('', '');
-    this.form.setValue({area, phone});
-    this.stateChanges.next();
-  }
+  // get value(): PhoneFormField | null {
+  //   const {value: {area, phone}} = this.form;
+  //     return new PhoneFormField(area, phone);
+  // }
+  // set value(tel: PhoneFormField | null) {
+  //   const {area, phone} = tel || new PhoneFormField('', '');
+  //   this.form.setValue({area, phone});
+  //   this.stateChanges.next();
+  // }
   
   form: FormGroup;
   areaCtrl: FormControl;
@@ -49,10 +58,12 @@ export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormFie
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;
     }
+
+    this.initForm();
   }
 
   ngOnInit(): void {
-    this.initForm();
+    // this.initForm();
   }
 
   private initForm() {
@@ -74,19 +85,24 @@ export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormFie
   }
 
   writeValue(value: PhoneFormField): void {
-    if (value) {
-      this.form.setValue(value);
-    }
+    // if (value) {
+    //   this.form.setValue(value);
+    // }
+    this.value = value;
     console.log('writeValue', value);
   }
   registerOnChange(fn: any): void {
     this.form.valueChanges.subscribe(fn);
+    console.log('registerOnChange');
   }
   registerOnTouched(fn: any): void {
     // throw new Error("Method not implemented.");
+    console.log('registerOnTouched');
   }
   setDisabledState?(isDisabled: boolean): void {
     // throw new Error("Method not implemented.");
+    console.log('setDisabledState');
+    
   }
 
 

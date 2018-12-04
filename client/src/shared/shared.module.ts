@@ -5,7 +5,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule, MatCardModule, MatFormFieldModule, MatGridListModule, MatIconModule, MatInputModule, MatMenuModule, MatRippleModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatFormFieldModule, MatGridListModule, MatIconModule, MatInputModule, MatMenuModule, MatRippleModule, MatSelectModule } from '@angular/material';
 import { environment } from 'src/environments/environment';
 import { PhoneFormFieldComponent } from './phone-form-field/phone-form-field.component';
 
@@ -25,7 +25,8 @@ import { PhoneFormFieldComponent } from './phone-form-field/phone-form-field.com
     MatInputModule,
     MatRippleModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSelectModule,
   ],
   exports: [MatGridListModule,
     MatCardModule,
@@ -38,7 +39,8 @@ import { PhoneFormFieldComponent } from './phone-form-field/phone-form-field.com
     MatInputModule,
     MatRippleModule,
     ReactiveFormsModule,
-    PhoneFormFieldComponent
+    PhoneFormFieldComponent,
+    MatSelectModule
   ],
   providers: [AngularFirestore]
 })
