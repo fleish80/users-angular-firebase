@@ -1,7 +1,8 @@
-import { Component, OnInit, Optional, Self, Input, HostBinding } from '@angular/core';
+import { Component, OnInit, Optional, Self, Input, HostBinding, ElementRef } from '@angular/core';
 import { MatFormFieldControl } from '@angular/material';
 import { Subject } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, NgControl, ControlValueAccessor } from '@angular/forms';
+import { FocusMonitor } from '@angular/cdk/a11y';
 
 class PhoneFormField {
   constructor(public area: string, public phone: string) { }
@@ -34,7 +35,8 @@ export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormFie
   phoneCtrl: FormControl;
 
   constructor(private fb: FormBuilder,
-    @Optional() @Self() public ngControl: NgControl) { 
+    @Optional() @Self() public ngControl: NgControl,
+    private fm: FocusMonitor, private elRef: ElementRef<HTMLElement>) { 
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;
     }
