@@ -15,7 +15,7 @@ class PhoneFormField {
 })
 export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormField>, OnInit {
  
-  value: PhoneFormField;
+  // value: PhoneFormField = new PhoneFormField('053', '9123456');
   stateChanges = new Subject<void>();
   id: string;
   placeholder: string;
@@ -28,6 +28,17 @@ export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormFie
   controlType?: string;
   autofilled?: boolean;
 
+  
+  get value(): PhoneFormField | null {
+    const {value: {area, phone}} = this.form;
+      return new PhoneFormField(area, phone);
+  }
+  set value(tel: PhoneFormField | null) {
+    const {area, phone} = tel || new PhoneFormField('', '');
+    this.form.setValue({area, phone});
+    this.stateChanges.next();
+  }
+  
   form: FormGroup;
   areaCtrl: FormControl;
   phoneCtrl: FormControl;
@@ -53,6 +64,8 @@ export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormFie
     });
   }
 
+
+
   setDescribedByIds(ids: string[]): void {
     // throw new Error("Method not implemented.");
   }
@@ -60,11 +73,14 @@ export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormFie
     // throw new Error("Method not implemented.");
   }
 
-  writeValue(obj: any): void {
-    // throw new Error("Method not implemented.");
+  writeValue(value: PhoneFormField): void {
+    if (value) {
+      this.form.setValue(value);
+    }
+    console.log('writeValue', value);
   }
   registerOnChange(fn: any): void {
-    // throw new Error("Method not implemented.");
+    this.form.valueChanges.subscribe(fn);
   }
   registerOnTouched(fn: any): void {
     // throw new Error("Method not implemented.");
