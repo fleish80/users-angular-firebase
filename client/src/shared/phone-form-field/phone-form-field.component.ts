@@ -1,7 +1,8 @@
-import { Component, OnInit, Optional, Self, Input, HostBinding, ElementRef } from '@angular/core';
+import { Component, OnInit, Optional, Self, Input, HostBinding, ElementRef, forwardRef } from '@angular/core';
 import { MatFormFieldControl } from '@angular/material';
 import { Subject } from 'rxjs';
-import { FormBuilder, FormControl, FormGroup, NgControl, ControlValueAccessor } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, NgControl,
+   Validators, NG_VALIDATORS, Validator, AbstractControl, ValidationErrors } from '@angular/forms';
 import { FocusMonitor } from '@angular/cdk/a11y';
 
 class PhoneFormField {
@@ -14,7 +15,7 @@ class PhoneFormField {
   styleUrls: ['./phone-form-field.component.scss'],
   providers: [{ provide: MatFormFieldControl, useExisting: PhoneFormFieldComponent }]
 })
-export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormField> {
+export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormField>, Validator {
   get value(): PhoneFormField {
     const { value: { area, phone } } = this.form;
     return new PhoneFormField(area, phone);
@@ -64,7 +65,7 @@ export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormFie
   }
 
   private initForm() {
-    this.areaCtrl = new FormControl(null);
+    this.areaCtrl = new FormControl(null, Validators.pattern('0([0-9]{2,3})'));
     this.phoneCtrl = new FormControl(null);
     this.form = this.fb.group({
       area: this.areaCtrl,
@@ -92,4 +93,13 @@ export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormFie
   registerOnTouched(fn: any): void {
     this.form.valueChanges.subscribe(fn);
   }
+
+  validate(control: AbstractControl): ValidationErrors {
+   if (this.areaCtrl.invalid) {
+     return {
+       area: false
+     };
+   }
+  }
+
 }
