@@ -1,6 +1,7 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
   <mat-card>
-    <mat-card-title layout-align="center center">User Registration</mat-card-title>
+    <mat-progress-spinner></mat-progress-spinner>
+    <mat-card-title>User Registration</mat-card-title>
     <mat-card-content>
       <div class="inputs">
         <mat-form-field>
@@ -44,5 +45,3 @@
       <button mat-stroked-button type="submit">Register</button>
     </mat-card-footer>
   </mat-card>
-
-  {{form.value | json}}

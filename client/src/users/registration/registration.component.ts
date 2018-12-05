@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '../usert';
-import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection, DocumentReference } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-registration',
@@ -30,7 +30,7 @@ export class RegistrationComponent implements OnInit {
     this.initForm();
   }
 
-  submit() {
+  async submit() {
     if (this.form.valid) {
       const user: User = {
         areaCode: this.phoneNumberCtrl.value && this.phoneNumberCtrl.value.area,
@@ -41,8 +41,7 @@ export class RegistrationComponent implements OnInit {
         phoneNumber: this.phoneNumberCtrl.value && this.phoneNumberCtrl.value.phone,
         street: this.streetCtrl.value
       };
-      console.log('user', user);
-      this.usersCollection.add(user);
+      const doc: DocumentReference = await this.usersCollection.add(user);
     }
   }
 
