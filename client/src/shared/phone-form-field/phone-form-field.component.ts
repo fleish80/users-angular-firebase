@@ -12,35 +12,55 @@ class PhoneFormField {
   selector: 'app-phone-form-field',
   templateUrl: './phone-form-field.component.html',
   styleUrls: ['./phone-form-field.component.scss'],
-  providers: [{ provide: MatFormFieldControl, useExisting: PhoneFormFieldComponent }],
+  providers: [{ provide: MatFormFieldControl, useExisting: PhoneFormFieldComponent }]
 })
 export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormField> {
- 
-  value: PhoneFormField;
-  stateChanges = new Subject<void>();
-  id: string = 'phone';
-  placeholder: string;
-  focused: boolean = false;
-  empty: boolean = true;
-  shouldLabelFloat: boolean;
-  required: boolean;
-  disabled: boolean = false;
-  errorState: boolean;
-  controlType?: string;
-  autofilled?: boolean = false;
+  get value(): PhoneFormField {
+    const { value: { area, phone } } = this.form;
+    return new PhoneFormField(area, phone);
+  }
+  set value(phoneFormField: PhoneFormField | null) {
+    const { area, phone } = phoneFormField || new PhoneFormField('', '');
+    this.form.setValue({ area, phone });
+    this.stateChanges.next();
+  }
 
-  @HostBinding('class.float') float: boolean = false;
+  stateChanges = new Subject<void>();
+  id = 'phone';
+  placeholder: string;
+  focused = false;
+  get empty() {
+    let ans = true;
+    if (this.form) {
+      const { value: { area, phone } } = this.form;
+      ans = !area && !phone;
+    }
+    return ans;
+  }
+  get shouldLabelFloat() { return this.focused || !this.empty; }
+  required: boolean;
+  disabled = false;
+  errorState: boolean;
+
+  @HostBinding('class.float') get float() {
+    return this.shouldLabelFloat;
+  }
   form: FormGroup;
   areaCtrl: FormControl;
   phoneCtrl: FormControl;
 
   constructor(private fb: FormBuilder,
     @Optional() @Self() public ngControl: NgControl,
-    private fm: FocusMonitor, private elRef: ElementRef<HTMLElement>) { 
+    private fm: FocusMonitor, private elRef: ElementRef<HTMLElement>) {
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;
     }
     this.initForm();
+
+    fm.monitor(elRef, true).subscribe(origin => {
+      this.focused = !!origin;
+      this.stateChanges.next();
+    });
   }
 
   private initForm() {

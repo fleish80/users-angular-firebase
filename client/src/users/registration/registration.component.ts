@@ -35,6 +35,6 @@ export class RegistrationComponent implements OnInit {
       firstName: this.firstNameCtrl,
       lastName: this.lastNameCtrl,
       phoneNumber: this.phoneNumberCtrl
-    })
+    });
   }
 }
