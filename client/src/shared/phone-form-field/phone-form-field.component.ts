@@ -1,9 +1,8 @@
-import { Component, OnInit, Optional, Self, Input, HostBinding, ElementRef, forwardRef } from '@angular/core';
+import { FocusMonitor } from '@angular/cdk/a11y';
+import { Component, ElementRef, HostBinding, Optional, Self } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, NgControl, ValidationErrors, Validator, Validators } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material';
 import { Subject } from 'rxjs';
-import { FormBuilder, FormControl, FormGroup, NgControl,
-   Validators, NG_VALIDATORS, Validator, AbstractControl, ValidationErrors } from '@angular/forms';
-import { FocusMonitor } from '@angular/cdk/a11y';
 
 class PhoneFormField {
   constructor(public area: string, public phone: string) { }
@@ -95,11 +94,11 @@ export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormFie
   }
 
   validate(control: AbstractControl): ValidationErrors {
-   if (this.areaCtrl.invalid) {
-     return {
-       area: false
-     };
-   }
+    if (this.areaCtrl.invalid) {
+      return {
+        area: false
+      };
+    }
   }
 
 }
