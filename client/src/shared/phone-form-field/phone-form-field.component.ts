@@ -1,6 +1,6 @@
 import { FocusMonitor } from '@angular/cdk/a11y';
-import { Component, ElementRef, HostBinding, Optional, Self } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, NgControl, ValidationErrors, Validator, Validators } from '@angular/forms';
+import { Component, ElementRef, HostBinding, Optional, Self, OnInit, Injector, forwardRef } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, NgControl, ValidationErrors, Validator, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material';
 import { Subject } from 'rxjs';
 
@@ -12,9 +12,22 @@ class PhoneFormField {
   selector: 'app-phone-form-field',
   templateUrl: './phone-form-field.component.html',
   styleUrls: ['./phone-form-field.component.scss'],
-  providers: [{ provide: MatFormFieldControl, useExisting: PhoneFormFieldComponent }]
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => PhoneFormFieldComponent),
+      multi: true
+    },
+    {
+      provide: NG_VALIDATORS,
+      useExisting: forwardRef(() => PhoneFormFieldComponent),
+      multi: true
+    },
+    { provide: MatFormFieldControl, useExisting: PhoneFormFieldComponent }
+  ]
 })
-export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormField>, Validator {
+export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormField>, Validator, OnInit {
+  ngControl: NgControl;
   get value(): PhoneFormField {
     const { value: { area, phone } } = this.form;
     return new PhoneFormField(area, phone);
@@ -50,11 +63,11 @@ export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormFie
   phoneCtrl: FormControl;
 
   constructor(private fb: FormBuilder,
-    @Optional() @Self() public ngControl: NgControl,
-    private fm: FocusMonitor, private elRef: ElementRef<HTMLElement>) {
-    if (this.ngControl != null) {
-      this.ngControl.valueAccessor = this;
-    }
+    private fm: FocusMonitor, private elRef: ElementRef<HTMLElement>,
+    public injector: Injector) {
+    // if (this.ngControl != null) {
+    //   this.ngControl.valueAccessor = this;
+    // }
     this.initForm();
 
     fm.monitor(elRef, true).subscribe(origin => {
@@ -62,6 +75,11 @@ export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormFie
       this.stateChanges.next();
     });
   }
+
+  ngOnInit() {
+    this.ngControl = this.injector.get(NgControl);
+    if (this.ngControl != null) { this.ngControl.valueAccessor = this; }
+ }
 
   private initForm() {
     this.areaCtrl = new FormControl(null, Validators.pattern('0([0-9]{2,3})'));
@@ -95,10 +113,9 @@ export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormFie
 
   validate(control: AbstractControl): ValidationErrors {
     if (this.areaCtrl.invalid) {
-      return {
-        area: false
-      };
+      return this.areaCtrl.errors;
     }
+    return null;
   }
 
 }
