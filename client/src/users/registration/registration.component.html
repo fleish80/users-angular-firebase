@@ -1,3 +1,4 @@
+<app-toast-message></app-toast-message>
 <form [formGroup]="form" (ngSubmit)="submit()">
   <mat-card>
     <mat-spinner></mat-spinner>
@@ -43,8 +44,11 @@
         </mat-form-field>
       </mat-card-content>
       <mat-card-footer>
-        <a [routerLink]="['../']" mat-stroked-button>Back</a>
         <button mat-stroked-button type="submit">Register</button>
+        <a [routerLink]="['../']" mat-stroked-button>Back</a>
       </mat-card-footer>
     </div>
   </mat-card>
+
+
+  <button (click)="open()">Some test</button>

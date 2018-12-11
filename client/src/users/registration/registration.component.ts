@@ -1,7 +1,8 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, DocumentReference } from '@angular/fire/firestore';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '../usert';
+import { ToastMessageComponent } from '../../shared/toast-message/toast-message.component';
 
 @Component({
   selector: 'app-registration',
@@ -19,6 +20,8 @@ export class RegistrationComponent implements OnInit {
   cityCtrl: FormControl;
   @HostBinding('class.in') loading = false;
   private usersCollection: AngularFirestoreCollection<User>;
+  @ViewChild(ToastMessageComponent)
+  private toastMessage: ToastMessageComponent;
 
   constructor(private fb: FormBuilder,
     private afs: AngularFirestore) {
@@ -66,5 +69,9 @@ export class RegistrationComponent implements OnInit {
       street: this.streetCtrl,
       house: this.houseCtrl
     });
+  }
+
+  open() {
+    this.toastMessage.openSuccess('some test');
   }
 }

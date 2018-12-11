@@ -7,12 +7,13 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule, MatCardModule,
   MatFormFieldModule, MatGridListModule, MatIconModule, MatInputModule,
-  MatMenuModule, MatRippleModule, MatSelectModule, MatProgressSpinnerModule } from '@angular/material';
+  MatMenuModule, MatRippleModule, MatSelectModule, MatProgressSpinnerModule, MatSnackBarModule } from '@angular/material';
 import { environment } from 'src/environments/environment';
 import { PhoneFormFieldComponent } from './phone-form-field/phone-form-field.component';
+import { ToastMessageComponent } from './toast-message/toast-message.component';
 
 @NgModule({
-  declarations: [PhoneFormFieldComponent],
+  declarations: [PhoneFormFieldComponent, ToastMessageComponent],
   imports: [
     CommonModule,
     AngularFireModule.initializeApp(environment.firebase),
@@ -30,6 +31,7 @@ import { PhoneFormFieldComponent } from './phone-form-field/phone-form-field.com
     ReactiveFormsModule,
     MatSelectModule,
     MatProgressSpinnerModule,
+    MatSnackBarModule
   ],
   exports: [MatGridListModule,
     MatCardModule,
@@ -44,7 +46,9 @@ import { PhoneFormFieldComponent } from './phone-form-field/phone-form-field.com
     ReactiveFormsModule,
     PhoneFormFieldComponent,
     MatSelectModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
+    ToastMessageComponent
   ],
   providers: [AngularFirestore]
 })
