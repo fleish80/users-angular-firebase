@@ -8,10 +8,7 @@ import { AngularFirestore} from '@angular/fire/firestore';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'Angular';
-  users: Observable<any[]>;
+  title = 'Angular Users';
 
-  constructor(db: AngularFirestore) {
-    this.users = db.collection('users').valueChanges();
-  }
+  constructor() {}
 }

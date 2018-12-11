@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
+import { AngularFirestore, AngularFirestoreCollection, DocumentReference } from '@angular/fire/firestore';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '../usert';
-import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection, DocumentReference } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-registration',
@@ -17,14 +17,13 @@ export class RegistrationComponent implements OnInit {
   streetCtrl: FormControl;
   houseCtrl: FormControl;
   cityCtrl: FormControl;
-
+  @HostBinding('class.in') loading = false;
   private usersCollection: AngularFirestoreCollection<User>;
-
 
   constructor(private fb: FormBuilder,
     private afs: AngularFirestore) {
-      this.usersCollection = afs.collection<User>('users');
-    }
+    this.usersCollection = afs.collection<User>('users');
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -41,7 +40,13 @@ export class RegistrationComponent implements OnInit {
         phoneNumber: this.phoneNumberCtrl.value && this.phoneNumberCtrl.value.phone,
         street: this.streetCtrl.value
       };
-      const doc: DocumentReference = await this.usersCollection.add(user);
+      this.loading = true;
+      try {
+        const doc: DocumentReference = await this.usersCollection.add(user);
+        this.loading = false;
+      } catch (e) {
+        this.loading = false;
+      }
     }
   }
 

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-users-list',
@@ -7,7 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UsersListComponent implements OnInit {
 
-  constructor() { }
+  users: Observable<any[]>;
+
+  constructor(db: AngularFirestore) {
+    this.users = db.collection('users').valueChanges();
+  }
 
   ngOnInit() {
   }

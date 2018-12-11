@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { UsersComponent } from './users.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { UsersListComponent } from './users-list/users-list.component';
 
 const routes: Routes = [
-  { path: '', component: UsersComponent },
+  { path: '', component: UsersListComponent, pathMatch: 'full' },
   { path: 'registration', component: RegistrationComponent }
 ];
 
