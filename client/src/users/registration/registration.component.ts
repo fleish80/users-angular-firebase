@@ -1,8 +1,10 @@
 import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection, DocumentReference } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, DocumentReference, DocumentSnapshot } from '@angular/fire/firestore';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { User } from '../usert';
 import { ToastMessageComponent } from '../../shared/toast-message/toast-message.component';
+import { User } from '../usert';
+
+export interface UsertId extends User { id: string; }
 
 @Component({
   selector: 'app-registration',
@@ -25,7 +27,7 @@ export class RegistrationComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private afs: AngularFirestore) {
-    this.usersCollection = afs.collection<User>('users');
+    this.usersCollection = afs.collection<User>('users');        
   }
 
   ngOnInit(): void {
@@ -46,11 +48,18 @@ export class RegistrationComponent implements OnInit {
       this.loading = true;
       try {
         const doc: DocumentReference = await this.usersCollection.add(user);
+        const documentSnapshot = await doc.get();
+        const addeduser = documentSnapshot.data() as User;
+        this.toastMessage.openSuccess(`User ${addeduser.firstName} ${addeduser.lastName} was registred succesfully`);
         this.loading = false;
       } catch (e) {
         this.loading = false;
       }
     }
+  }
+
+  snapshot() {
+
   }
 
   private initForm() {
@@ -72,6 +81,6 @@ export class RegistrationComponent implements OnInit {
   }
 
   open() {
-    this.toastMessage.openSuccess('some test');
+    this.toastMessage.openSuccess('some test some test some test some test some test some test');
   }
 }
