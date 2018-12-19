@@ -10,13 +10,13 @@
             <mat-label>First Name</mat-label>
             <input matInput type="text" [formControl]="firstNameCtrl">
             <mat-icon matSuffix>face</mat-icon>
-            <mat-error *ngIf="firstNameCtrl.invalid">First name is required</mat-error>
+            <mat-error *ngIf="firstNameCtrl.invalid && firstNameCtrl.errors.required">First name is required</mat-error>
           </mat-form-field>
           <mat-form-field>
             <mat-label>Last Name</mat-label>
             <input matInput type="text" [formControl]="lastNameCtrl">
             <mat-icon matSuffix>face</mat-icon>
-            <mat-error *ngIf="lastNameCtrl.invalid">Last name is required</mat-error>
+            <mat-error *ngIf="lastNameCtrl.invalid && lastNameCtrl.required">Last name is required</mat-error>
           </mat-form-field>
         </div>
         <mat-form-field>
@@ -45,10 +45,10 @@
       </mat-card-content>
       <mat-card-footer>
         <button mat-stroked-button type="submit">Register</button>
-        <a [routerLink]="['../']" mat-stroked-button>Back</a>
+        <a mat-stroked-button [routerLink]="['../']">Back to users list</a>
       </mat-card-footer>
     </div>
   </mat-card>
 
-
-  <button (click)="open()">Some test</button>
+  {{phoneNumberCtrl.errors | json}}
+  <!-- <button (click)="open()">Some test</button> -->

@@ -1,8 +1,10 @@
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { Component, ElementRef, forwardRef, HostBinding, Injector, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder,
+import {
+  AbstractControl, FormBuilder,
   FormControl, FormGroup, NgControl,
-  NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from '@angular/forms';
+  NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators
+} from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material';
 import { Subject } from 'rxjs';
 
@@ -67,9 +69,6 @@ export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormFie
   constructor(private fb: FormBuilder,
     private fm: FocusMonitor, private elRef: ElementRef<HTMLElement>,
     public injector: Injector) {
-    // if (this.ngControl != null) {
-    //   this.ngControl.valueAccessor = this;
-    // }
     this.initForm();
 
     fm.monitor(elRef, true).subscribe(origin => {
@@ -81,11 +80,11 @@ export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormFie
   ngOnInit() {
     this.ngControl = this.injector.get(NgControl);
     if (this.ngControl != null) { this.ngControl.valueAccessor = this; }
- }
+  }
 
   private initForm() {
-    this.areaCtrl = new FormControl(null, Validators.pattern('0([0-9]{2,3})'));
-    this.phoneCtrl = new FormControl(null, Validators.pattern('([1-9][0-9]{7})'));
+    this.areaCtrl = new FormControl(null, [Validators.minLength(2), Validators.maxLength(3), Validators.pattern('0([0-9]*)')]);
+    this.phoneCtrl = new FormControl(null, [Validators.minLength(7), Validators.maxLength(7), Validators.pattern('([1-9][0-9]{7})')]);
     this.form = this.fb.group({
       area: this.areaCtrl,
       phone: this.phoneCtrl
@@ -115,12 +114,18 @@ export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormFie
 
   validate(control: AbstractControl): ValidationErrors {
     this.errorState = false;
-    if (this.form.invalid ) {
+    if (this.form.invalid) {
       this.errorState = true;
-      return {
-        area : this.areaCtrl.errors,
-        phone: this.phoneCtrl.errors
-      };
+      let ans = {
+        area: null,
+        phone: null
+      }
+      if (this.areaCtrl.errors) {
+        ans.area = this.areaCtrl.errors;
+      } else if (this.phoneCtrl.errors) {
+        ans.phone = this.phoneCtrl.errors;
+      }
+      return ans;
     }
     return null;
   }
