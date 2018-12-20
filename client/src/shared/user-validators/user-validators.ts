@@ -23,19 +23,19 @@ export class UserValidators {
         };
     }
 
-    static requiredIfHasValue(otherControlName: string) {
-        return (control: AbstractControl): { [key: string]: any } | null => {
-            const formGroup: FormGroup = control.parent as FormGroup;
-            if (formGroup) {
-                const otherControl = formGroup.controls[otherControlName];
-                const ans = !control.value && !!otherControl && !!otherControl.value;
-                if (!ans) {
-                    otherControl.updateValueAndValidity({emitEvent: false});
-                }
-                return ans ? { RequiredIfHasValue: true } : null;
-            } else {
-                return null;
+    static requiredIfHasValue(controlNameFirst: string, controlNameSecond: string) {
+        return (formGroup: FormGroup): { [key: string]: any } | null => {
+            const firstCtrl = formGroup.controls[controlNameFirst];
+            const secondCtrl = formGroup.controls[controlNameSecond];
+            const firstValue = firstCtrl.value;
+            const secondValue = secondCtrl.value;
+            if (!firstValue && secondValue) {
+                firstCtrl.setErrors({requiredIfHasValue: true})
             }
+            if (firstValue && !secondValue) {
+                secondCtrl.setErrors({requiredIfHasValue: true})
+            }
+            return null;
         }
     }
 

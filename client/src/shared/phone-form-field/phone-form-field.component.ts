@@ -88,20 +88,18 @@ export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormFie
       Validators.minLength(2),
       Validators.maxLength(3),
       UserValidators.digitsOnly(),
-      UserValidators.beginWithZero(),
-      UserValidators.requiredIfHasValue('phone')
+      UserValidators.beginWithZero()
     ]);
     this.phoneCtrl = new FormControl(null, [
       Validators.minLength(7),
       Validators.maxLength(7),
       UserValidators.digitsOnly(),
       UserValidators.notBeginWithZero(),
-      UserValidators.requiredIfHasValue('area')
     ]);
     this.form = this.fb.group({
       area: this.areaCtrl,
       phone: this.phoneCtrl
-    });
+    }, {validator: UserValidators.requiredIfHasValue('area', 'phone')});
   }
 
 
