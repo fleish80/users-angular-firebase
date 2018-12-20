@@ -30,13 +30,20 @@ export class UserValidators {
             const firstValue = firstCtrl.value;
             const secondValue = secondCtrl.value;
             if (!firstValue && secondValue) {
-                firstCtrl.setErrors({requiredIfHasValue: true})
+                firstCtrl.setErrors({ requiredIfHasValue: true })
             }
             if (firstValue && !secondValue) {
-                secondCtrl.setErrors({requiredIfHasValue: true})
+                secondCtrl.setErrors({ requiredIfHasValue: true })
             }
             return null;
         }
+    }
+
+    static textOnly(): ValidatorFn {
+        return (control: AbstractControl): { [key: string]: any } | null => {
+            const matched = /^[a-zA-Z\-]*$/.test(control.value);
+            return matched ? null : { textOnly: true };
+        };
     }
 
 }

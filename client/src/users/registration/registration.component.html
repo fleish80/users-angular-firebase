@@ -11,8 +11,9 @@
             <input matInput type="text" [formControl]="firstNameCtrl">
             <mat-icon matSuffix>face</mat-icon>
             <mat-error *ngIf="firstNameCtrl.invalid">
-              <span *ngIf="firstNameCtrl.errors.required && !firstNameCtrl.errors.pattern">First name is required</span>
-              <span *ngIf="!firstNameCtrl.errors.required && firstNameCtrl.errors.pattern">First name contains invalid chars</span>
+              <span *ngIf="firstNameCtrl.errors.required && !firstNameCtrl.errors.textOnly">First name is required</span>
+              <span *ngIf="!firstNameCtrl.errors.required && firstNameCtrl.errors.textOnly">First name contains invalid
+                chars</span>
             </mat-error>
           </mat-form-field>
           <mat-form-field>
@@ -20,8 +21,9 @@
             <input matInput type="text" [formControl]="lastNameCtrl">
             <mat-icon matSuffix>face</mat-icon>
             <mat-error *ngIf="lastNameCtrl.invalid">
-                <span *ngIf="lastNameCtrl.errors.required && !lastNameCtrl.errors.pattern">Last name is required</span>
-                <span *ngIf="!lastNameCtrl.errors.required && lastNameCtrl.errors.pattern">Last name contains invalid chars</span>
+              <span *ngIf="lastNameCtrl.errors.required && !lastNameCtrl.errors.textOnly">Last name is required</span>
+              <span *ngIf="!lastNameCtrl.errors.required && lastNameCtrl.errors.textOnly">Last name contains invalid
+                chars</span>
             </mat-error>
           </mat-form-field>
         </div>
@@ -29,7 +31,9 @@
           <mat-label>Phone Number</mat-label>
           <app-phone-form-field [formControl]="phoneNumberCtrl"></app-phone-form-field>
           <mat-icon matSuffix>phone</mat-icon>
-          <mat-error *ngIf="phoneNumberCtrl.invalid">The phone number is illegal</mat-error>
+          <mat-error *ngIf="phoneNumberCtrl.invalid">
+            <span *ngIf="phoneNumberCtrl.errors.area.requiredIfHasValue && !phoneNumberCtrl.errors.area.minLength && !phoneNumberCtrl.errors.area.maxLength && !phoneNumberCtrl.errors.area.digitsOnly && !phoneNumberCtrl.errors.area.beginWithZero">The area is required when there is a value in phone</span>
+          </mat-error>
         </mat-form-field>
         <div class="inputs">
           <mat-form-field>

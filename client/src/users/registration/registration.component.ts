@@ -3,6 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection, DocumentReference, Docume
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastMessageComponent } from '../../shared/toast-message/toast-message.component';
 import { User } from '../usert';
+import { UserValidators } from 'src/shared/user-validators/user-validators';
 
 export interface UsertId extends User { id: string; }
 
@@ -27,7 +28,7 @@ export class RegistrationComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private afs: AngularFirestore) {
-    this.usersCollection = afs.collection<User>('users');        
+    this.usersCollection = afs.collection<User>('users');
   }
 
   ngOnInit(): void {
@@ -64,13 +65,13 @@ export class RegistrationComponent implements OnInit {
 
   private initForm() {
     this.firstNameCtrl = new FormControl(null,
-      [Validators.required, Validators.pattern('[a-zA-Z\-]*')]);
+      [Validators.required, UserValidators.textOnly()]);
     this.lastNameCtrl = new FormControl(null,
-      [Validators.required, Validators.pattern('[a-zA-Z\-]*')]);
+      [Validators.required, UserValidators.textOnly()]);
     this.phoneNumberCtrl = new FormControl(null);
-    this.cityCtrl = new FormControl(null);
-    this.streetCtrl = new FormControl(null);
-    this.houseCtrl = new FormControl(null);
+    this.cityCtrl = new FormControl(null, UserValidators.textOnly());
+    this.streetCtrl = new FormControl(null, UserValidators.textOnly());
+    this.houseCtrl = new FormControl(null, [UserValidators.digitsOnly(), UserValidators.notBeginWithZero()]);
 
     this.form = this.fb.group({
       firstName: this.firstNameCtrl,
