@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material';
 import { Subject } from 'rxjs';
+import { UserValidators } from '../user-validators/user-validators';
 
 class PhoneFormField {
   constructor(public area: string, public phone: string) { }
@@ -83,8 +84,20 @@ export class PhoneFormFieldComponent implements MatFormFieldControl<PhoneFormFie
   }
 
   private initForm() {
-    this.areaCtrl = new FormControl(null, [Validators.minLength(2), Validators.maxLength(3), Validators.pattern('0([0-9]*)')]);
-    this.phoneCtrl = new FormControl(null, [Validators.minLength(7), Validators.maxLength(7), Validators.pattern('([1-9][0-9]{7})')]);
+    this.areaCtrl = new FormControl(null, [
+      Validators.minLength(2),
+      Validators.maxLength(3),
+      UserValidators.digitsOnly(),
+      UserValidators.beginWithZero(),
+      UserValidators.requiredIfHasValue('phone')
+    ]);
+    this.phoneCtrl = new FormControl(null, [
+      Validators.minLength(7),
+      Validators.maxLength(7),
+      UserValidators.digitsOnly(),
+      UserValidators.notBeginWithZero(),
+      UserValidators.requiredIfHasValue('area')
+    ]);
     this.form = this.fb.group({
       area: this.areaCtrl,
       phone: this.phoneCtrl
