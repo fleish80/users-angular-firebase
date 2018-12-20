@@ -63,8 +63,10 @@ export class RegistrationComponent implements OnInit {
   }
 
   private initForm() {
-    this.firstNameCtrl = new FormControl(null, [Validators.required]);
-    this.lastNameCtrl = new FormControl(null, [Validators.required]);
+    this.firstNameCtrl = new FormControl(null,
+      [Validators.required, Validators.pattern('[a-zA-Z\-]*')]);
+    this.lastNameCtrl = new FormControl(null,
+      [Validators.required, Validators.pattern('[a-zA-Z\-]*')]);
     this.phoneNumberCtrl = new FormControl(null);
     this.cityCtrl = new FormControl(null);
     this.streetCtrl = new FormControl(null);

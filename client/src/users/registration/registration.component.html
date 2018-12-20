@@ -10,13 +10,19 @@
             <mat-label>First Name</mat-label>
             <input matInput type="text" [formControl]="firstNameCtrl">
             <mat-icon matSuffix>face</mat-icon>
-            <mat-error *ngIf="firstNameCtrl.invalid && firstNameCtrl.errors.required">First name is required</mat-error>
+            <mat-error *ngIf="firstNameCtrl.invalid">
+              <span *ngIf="firstNameCtrl.errors.required && !firstNameCtrl.errors.pattern">First name is required</span>
+              <span *ngIf="!firstNameCtrl.errors.required && firstNameCtrl.errors.pattern">First name contains invalid chars</span>
+            </mat-error>
           </mat-form-field>
           <mat-form-field>
             <mat-label>Last Name</mat-label>
             <input matInput type="text" [formControl]="lastNameCtrl">
             <mat-icon matSuffix>face</mat-icon>
-            <mat-error *ngIf="lastNameCtrl.invalid && lastNameCtrl.required">Last name is required</mat-error>
+            <mat-error *ngIf="lastNameCtrl.invalid">
+                <span *ngIf="lastNameCtrl.errors.required && !lastNameCtrl.errors.pattern">Last name is required</span>
+                <span *ngIf="!lastNameCtrl.errors.required && lastNameCtrl.errors.pattern">Last name contains invalid chars</span>
+            </mat-error>
           </mat-form-field>
         </div>
         <mat-form-field>
