@@ -55,10 +55,10 @@
           <mat-error *ngIf="cityCtrl.invalid">{{cityCtrl.errors | errorKey:'city'}}
           </mat-error>
         </mat-form-field>
-      </mat-card-content>
-      <mat-card-footer>
-        <button mat-stroked-button type="submit">Register</button>
-        <a mat-stroked-button [routerLink]="['../']">Back to users list</a>
-      </mat-card-footer>
+      </mat-card-content>    
     </div>
+    <mat-card-footer>
+      <button mat-stroked-button type="submit">Register</button>
+      <a mat-stroked-button [routerLink]="['../']">Back to users list</a>
+    </mat-card-footer>
   </mat-card>

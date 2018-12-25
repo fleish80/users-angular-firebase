@@ -1,4 +1,10 @@
 <ng-template #success>
-  <span class="toast-text">{{successMessage}}</span>
+  <span class="toast-text">{{message}}</span>
   <button mat-mini-fab (click)="snackBar.dismiss()" color="basic">Close</button>
 </ng-template>
+
+<ng-template #failure>
+  <span class="toast-text">{{message}}</span>
+  <button mat-mini-fab (click)="snackBar.dismiss()" color="basic">Close</button>
+</ng-template>
+

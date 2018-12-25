@@ -8,9 +8,12 @@ import { MatSnackBar } from '@angular/material';
 })
 export class ToastMessageComponent implements OnInit {
 
-  successMessage: string;
+  message: string;
   @ViewChild('success')
   private successTmpl: TemplateRef<any>;
+
+  @ViewChild('failure')
+  private failureTmpl: TemplateRef<any>;
 
   constructor(public snackBar: MatSnackBar) { }
 
@@ -18,9 +21,18 @@ export class ToastMessageComponent implements OnInit {
   }
 
   public openSuccess(message: string) {
-    this.successMessage = message;
+    this.snackBar.dismiss();
+    this.message = message;
     this.snackBar.openFromTemplate(this.successTmpl, {
       panelClass: ['toast-message', 'toast-success']
+    });
+  }
+
+  public openFailure(message: string) {
+    this.snackBar.dismiss();
+    this.message = message;
+    this.snackBar.openFromTemplate(this.failureTmpl, {
+      panelClass: ['toast-message', 'failure-success']
     });
   }
 
